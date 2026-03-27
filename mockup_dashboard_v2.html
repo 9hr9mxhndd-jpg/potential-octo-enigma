@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS ARCHIVE // 기록형 자기계발 목업</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a12;
+      --bg2: #101322;
+      --card: rgba(17, 20, 35, 0.88);
+      --card-2: rgba(13, 16, 29, 0.9);
+      --line: rgba(123, 106, 255, 0.18);
+      --line-strong: rgba(0, 212, 255, 0.32);
+      --text: #eef2ff;
+      --muted: #98a2c6;
+      --dim: #5e6687;
+      --purple: #8c5cff;
+      --cyan: #00d4ff;
+      --green: #00f5b0;
+      --yellow: #ffd84d;
+      --red: #ff5f7b;
+      --shadow-purple: 0 0 24px rgba(140, 92, 255, 0.26);
+      --shadow-cyan: 0 0 24px rgba(0, 212, 255, 0.18);
+      --radius: 18px;
+      --mono: 'IBM Plex Mono', monospace;
+      --display: 'Rajdhani', sans-serif;
+      --body: 'Noto Sans KR', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--body);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(140,92,255,0.16), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(0,212,255,0.12), transparent 26%),
+        linear-gradient(180deg, #0a0c15 0%, #07080f 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      opacity: .32;
+    }
+
+    .shell {
+      max-width: 1460px;
+      margin: 0 auto;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(10,12,22,0.8);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      position: sticky;
+      top: 18px;
+      z-index: 10;
+    }
+    .brand-title {
+      font-family: var(--display);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: 4px;
+      font-weight: 700;
+    }
+    .brand-title span { color: var(--purple); text-shadow: var(--shadow-purple); }
+    .brand-sub {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tab-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      transition: .22s ease;
+    }
+    .tab-btn:hover,
+    .tab-btn.active {
+      color: var(--text);
+      border-color: rgba(140, 92, 255, .46);
+      background: rgba(140, 92, 255, .13);
+      box-shadow: var(--shadow-purple);
+      transform: translateY(-1px);
+    }
+
+    .view { display: none; margin-top: 24px; }
+    .view.active { display: block; }
+
+    .page-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .eyebrow {
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    h1, h2, h3, h4 { margin: 0; }
+    .page-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-family: var(--display);
+      letter-spacing: 1px;
+    }
+    .page-desc { color: var(--muted); max-width: 900px; line-height: 1.65; }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+    .dashboard-grid {
+      grid-template-columns: 1.25fr .95fr;
+    }
+    .records-grid,
+    .achievements-grid-main {
+      grid-template-columns: 400px 1fr;
+    }
+    .analytics-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .cards-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(18,21,36,.96), rgba(12,14,26,.95));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0,0,0,.22);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(140,92,255,.75), transparent);
+      opacity: .6;
+    }
+    .card-title {
+      font-family: var(--display);
+      font-size: 24px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .card-sub {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, rgba(140,92,255,.5), transparent);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .avatar {
+      width: 118px;
+      height: 118px;
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      font-size: 56px;
+      background: linear-gradient(135deg, rgba(140,92,255,.32), rgba(0,212,255,.22));
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: var(--shadow-cyan);
+    }
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .profile-name {
+      font-family: var(--display);
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .pill.good { color: var(--green); border-color: rgba(0,245,176,.25); background: rgba(0,245,176,.06); }
+    .pill.warn { color: var(--yellow); border-color: rgba(255,216,77,.25); background: rgba(255,216,77,.06); }
+    .pill.cyan { color: var(--cyan); border-color: rgba(0,212,255,.25); background: rgba(0,212,255,.06); }
+
+    .summary-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .metric {
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.025);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .metric-label {
+      color: var(--dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .metric-value {
+      font-family: var(--display);
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: .5px;
+    }
+    .metric-note { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+    .category-card {
+      border: 1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius: 18px;
+      padding: 18px;
+      position: relative;
+    }
+    .category-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .category-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      background: rgba(140,92,255,.14);
+      border: 1px solid rgba(140,92,255,.24);
+    }
+    .category-name { font-size: 22px; font-family: var(--display); }
+    .category-target { color: var(--muted); font-size: 13px; }
+    .big-number {
+      font-family: var(--display);
+      font-size: 40px;
+      line-height: 1;
+      margin: 14px 0 6px;
+    }
+    .tiny-label { color: var(--dim); font-size: 12px; }
+
+    .progress {
+      width: 100%;
+      height: 9px;
+      background: rgba(255,255,255,.05);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 14px 0 10px;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--purple), var(--cyan));
+      box-shadow: var(--shadow-purple);
+    }
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .mini-cell {
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(255,255,255,.018);
+    }
+    .mini-cell strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+    .mini-cell span { font-size: 11px; color: var(--dim); }
+
+    .feed-item,
+    .record-row,
+    .achievement-card,
+    .bridge-chip,
+    .insight-row,
+    .proof-card,
+    .metric-table .mrow {
+      transition: .18s ease;
+    }
+    .feed-list { display: grid; gap: 10px; }
+    .feed-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.02);
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+    }
+    .feed-item:hover,
+    .record-row:hover,
+    .achievement-card:hover,
+    .bridge-chip:hover,
+    .insight-row:hover {
+      transform: translateY(-1px);
+      border-color: rgba(140,92,255,.36);
+      background: rgba(140,92,255,.08);
+    }
+    .feed-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      background: rgba(0,212,255,.1);
+      border: 1px solid rgba(0,212,255,.18);
+    }
+    .feed-main strong,
+    .record-row strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+    .feed-main span,
+    .record-row span,
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .feed-value {
+      font-family: var(--display);
+      font-size: 26px;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-family: var(--mono);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+    }
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: rgba(140,92,255,.52);
+      box-shadow: 0 0 0 3px rgba(140,92,255,.12);
+    }
+    .textarea { min-height: 90px; resize: vertical; }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .btn-row { display: flex; gap: 10px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: .2s ease;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(140,92,255,.92), rgba(76,130,255,.92));
+      border-color: transparent;
+      box-shadow: var(--shadow-purple);
+    }
+    .btn:hover { transform: translateY(-1px); }
+
+    .records-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .toolbar-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .record-list { display: grid; gap: 10px; max-height: 850px; overflow: auto; padding-right: 6px; }
+    .record-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.02);
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+    }
+    .record-date {
+      border-right: 1px solid rgba(255,255,255,.07);
+      padding-right: 12px;
+      text-align: center;
+    }
+    .record-date b {
+      display: block;
+      font-family: var(--display);
+      font-size: 24px;
+    }
+    .record-date small { color: var(--dim); font-family: var(--mono); }
+    .record-value {
+      text-align: right;
+      font-family: var(--display);
+      font-size: 24px;
+      min-width: 110px;
+    }
+
+    .metric-table { display: grid; gap: 12px; }
+    .metric-block {
+      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.02);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .metric-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .metric-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--display);
+      font-size: 24px;
+    }
+    .mrow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      border-top: 1px solid rgba(255,255,255,.05);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .mcell {
+      background: rgba(255,255,255,.018);
+      border-radius: 14px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .mcell small {
+      display: block;
+      color: var(--dim);
+      font-size: 11px;
+      font-family: var(--mono);
+      margin-bottom: 6px;
+      letter-spacing: .5px;
+    }
+    .mcell strong {
+      font-family: var(--display);
+      font-size: 24px;
+      display: block;
+    }
+    .mcell span { color: var(--muted); font-size: 12px; }
+
+    .achievement-card {
+      border: 1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border-radius: 18px;
+      padding: 18px;
+      cursor: pointer;
+    }
+    .achievement-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+    .achievement-emoji {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      background: rgba(140,92,255,.13);
+      border: 1px solid rgba(140,92,255,.22);
+      flex: 0 0 auto;
+    }
+    .achievement-name {
+      font-family: var(--display);
+      font-size: 23px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .achievement-desc { color: var(--muted); font-size: 13px; line-height: 1.6; min-height: 40px; }
+    .achievement-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+    }
+    .status-tag.unlocked {
+      color: var(--green);
+      border-color: rgba(0,245,176,.24);
+      background: rgba(0,245,176,.06);
+    }
+    .rarity {
+      font-size: 12px;
+      color: var(--yellow);
+      font-family: var(--mono);
+    }
+
+    .bridge-panel {
+      border: 1px solid rgba(0,212,255,.18);
+      background: linear-gradient(180deg, rgba(0,212,255,.06), rgba(255,255,255,.02));
+    }
+    .bridge-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .bridge-chip {
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 12px 10px;
+      font-size: 13px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .bridge-chip.done {
+      border-color: rgba(0,245,176,.3);
+      background: rgba(0,245,176,.08);
+      color: var(--green);
+      box-shadow: inset 0 0 0 1px rgba(0,245,176,.06);
+    }
+    .bridge-chip small {
+      display: block;
+      color: var(--dim);
+      font-family: var(--mono);
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    .insight-list { display: grid; gap: 12px; }
+    .insight-row {
+      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.02);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .badge-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 14, 0.76);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 40;
+    }
+    .modal-wrap.open { display: flex; }
+    .modal {
+      width: min(860px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      background: linear-gradient(180deg, rgba(17,20,35,.98), rgba(10,12,23,.98));
+      border-radius: 24px;
+      border: 1px solid rgba(140,92,255,.25);
+      box-shadow: 0 24px 80px rgba(0,0,0,.45), var(--shadow-purple);
+      padding: 26px;
+    }
+    .modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .close-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
+      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .proof-card {
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .proof-card:hover { border-color: rgba(0,212,255,.32); background: rgba(0,212,255,.06); }
+    .proof-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: start;
+    }
+    .empty {
+      border: 1px dashed rgba(255,255,255,.1);
+      background: rgba(255,255,255,.015);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: rgba(10,14,24,.96);
+      border: 1px solid rgba(0,245,176,.25);
+      color: var(--green);
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.28);
+      font-family: var(--mono);
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: .24s ease;
+      z-index: 60;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1180px) {
+      .dashboard-grid,
+      .records-grid,
+      .achievements-grid-main,
+      .analytics-grid,
+      .cards-4,
+      .cards-3 { grid-template-columns: 1fr; }
+      .summary-metrics { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .bridge-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .proof-grid,
+      .form-row-2,
+      .mrow { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 760px) {
+      .shell { padding: 14px; }
+      .topbar { align-items: start; flex-direction: column; }
+      .hero { grid-template-columns: 1fr; }
+      .summary-metrics,
+      .cards-2,
+      .proof-grid,
+      .form-row-2,
+      .mrow,
+      .bridge-grid { grid-template-columns: 1fr; }
+      .record-row { grid-template-columns: 1fr; }
+      .record-date { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.07); padding-right: 0; padding-bottom: 10px; text-align: left; }
+      .record-value { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <div class="brand-title">NEX<span>U</span>S ARCHIVE</div>
+        <div class="brand-sub">XP 없는 기록형 게이미피케이션 자기계발 목업 · daily quest → evidence-first logging</div>
+      </div>
+      <nav class="tabs" id="tabs"></nav>
+    </header>
+
+    <section class="view active" id="view-dashboard"></section>
+    <section class="view" id="view-records"></section>
+    <section class="view" id="view-analytics"></section>
+    <section class="view" id="view-achievements"></section>
+  </div>
+
+  <div class="modal-wrap" id="modal-wrap">
+    <div class="modal" id="modal"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = 'nexus-archive-v2';
+    const CATEGORY_META = {
+      walk: { label: '걷기', unit: '걸음', icon: '👟', goal: 8000, flavor: '도보 수는 누적 업적의 핵심 지표입니다.' },
+      water: { label: '물 마시기', unit: 'ml', icon: '💧', goal: 2000, flavor: '2L 목표를 달성한 날은 수분 업적 판정에 반영됩니다.' },
+      read: { label: '독서', unit: '쪽', icon: '📚', goal: 40, flavor: '페이지 기준으로 누적되어 독서 업적과 연결됩니다.' },
+      sleep: { label: '수면', unit: '시간', icon: '😴', goal: 8, flavor: '8시간 준수 일수와 최고/최저 수면량을 함께 봅니다.' },
+      diary: { label: '기록', unit: '회', icon: '📝', goal: 1, flavor: '연속 기록 스트릭을 계산합니다.' },
+      bridge: { label: '한강 다리', unit: '개', icon: '🌉', goal: 1, flavor: '집합형 업적의 개별 증거가 됩니다.' },
+      detox: { label: '디톡스', unit: '시간', icon: '📵', goal: 24, flavor: '숏폼 없이 보낸 시간을 업적으로 전환합니다.' }
+    };
+
+    const BRIDGES = [
+      '광진교','잠실철교','올림픽대교','잠실대교','영동대교','성수대교','동호대교','한남대교','반포대교','동작대교','한강대교','원효대교','마포대교','서강대교','양화대교','성산대교','월드컵대교','가양대교','행주대교','천호대교','암사대교','구리암사대교','잠수교'
+    ];
+
+    function createSeedState() {
+      return {
+        profile: {
+          name: 'PLAYER_01',
+          title: '기록 수집가',
+          seasonFocus: '지속 가능한 루틴 설계',
+          joinedAt: '2026-02-01'
+        },
+        records: [
+          { id: 1, category: 'walk', value: 9230, date: '2026-03-26', note: '출퇴근 + 저녁 산책', evidence: 'Samsung Health 캡처', proofType: '앱 기록' },
+          { id: 2, category: 'water', value: 2300, date: '2026-03-26', note: '오전 1L / 오후 1.3L', evidence: '물병 체크리스트', proofType: '수기 체크' },
+          { id: 3, category: 'read', value: 58, date: '2026-03-26', note: '프로덕트 전략 챕터 2~3', evidence: '전자책 하이라이트 화면', proofType: '앱 하이라이트' },
+          { id: 4, category: 'sleep', value: 7.8, date: '2026-03-26', note: '조금 부족했음', evidence: '수면 앱 리포트', proofType: '앱 기록' },
+          { id: 5, category: 'diary', value: 1, date: '2026-03-26', note: '오늘의 루틴 회고 작성', evidence: '데일리 노트 링크', proofType: '노트 링크' },
+          { id: 6, category: 'walk', value: 11240, date: '2026-03-25', note: '회의 후 한 바퀴 더 걸음', evidence: '삼성헬스 주간 그래프', proofType: '앱 기록' },
+          { id: 7, category: 'water', value: 2000, date: '2026-03-25', note: '정확히 2L 달성', evidence: '체크박스 8칸 완료', proofType: '수기 체크' },
+          { id: 8, category: 'read', value: 42, date: '2026-03-25', note: '논문 1편 정리', evidence: '메모 앱 스크린샷', proofType: '메모 기록' },
+          { id: 9, category: 'sleep', value: 8.2, date: '2026-03-25', note: '8시간 초과 달성', evidence: '워치 수면 점수 88', proofType: '워치 기록' },
+          { id: 10, category: 'diary', value: 1, date: '2026-03-25', note: '감정 로그 작성', evidence: '데일리 페이지', proofType: '노트 링크' },
+          { id: 11, category: 'walk', value: 8140, date: '2026-03-24', note: '집 앞 산책 포함', evidence: '걸음 수 캡처', proofType: '앱 기록' },
+          { id: 12, category: 'water', value: 2100, date: '2026-03-24', note: '커피 제외 수분 섭취', evidence: '텀블러 기록', proofType: '수기 체크' },
+          { id: 13, category: 'read', value: 37, date: '2026-03-24', note: '40쪽에는 못 미침', evidence: '독서 노트 사진', proofType: '사진' },
+          { id: 14, category: 'sleep', value: 8.4, date: '2026-03-24', note: '일찍 취침', evidence: '수면 그래프', proofType: '워치 기록' },
+          { id: 15, category: 'diary', value: 1, date: '2026-03-24', note: '아침 계획 수립', evidence: '다이어리 페이지', proofType: '사진' },
+          { id: 16, category: 'detox', value: 26, date: '2026-03-20', note: '릴스/쇼츠 없이 하루 보냄', evidence: '스크린타임 캡처', proofType: '스크린타임' },
+          { id: 17, category: 'sleep', value: 8.1, date: '2026-03-20', note: '늦게 자지 않음', evidence: '수면 리포트', proofType: '워치 기록' },
+          { id: 18, category: 'diary', value: 1, date: '2026-03-20', note: '주간 회고 작성', evidence: '노션 회고 페이지', proofType: '노트 링크' },
+          { id: 19, category: 'bridge', value: 1, date: '2026-03-02', note: '광나루 러닝 후 광진교 횡단', evidence: '광진교 표지판 앞 사진', proofType: 'GPS+사진', bridgeName: '광진교' },
+          { id: 20, category: 'bridge', value: 1, date: '2026-03-09', note: '잠실 일대 산책 루트', evidence: '잠실철교 산책 인증 캡처', proofType: 'GPS+사진', bridgeName: '잠실철교' },
+          { id: 21, category: 'bridge', value: 1, date: '2026-03-16', note: '야간 러닝 챌린지', evidence: '올림픽대교 횃불 조형물 사진', proofType: 'GPS+사진', bridgeName: '올림픽대교' },
+          { id: 22, category: 'walk', value: 14520, date: '2026-03-16', note: '한강 다리 챌린지 날', evidence: '러닝앱 14,520보', proofType: '앱 기록' },
+          { id: 23, category: 'water', value: 2500, date: '2026-03-16', note: '다리 챌린지라 수분 보충 많이 함', evidence: '체크리스트 10칸', proofType: '수기 체크' },
+          { id: 24, category: 'read', value: 125, date: '2026-03-18', note: '책 한 챕터 몰입 독서', evidence: '전자책 진행률 18%', proofType: '앱 하이라이트' },
+          { id: 25, category: 'sleep', value: 5.2, date: '2026-03-12', note: '새벽 작업 때문에 수면 부족', evidence: '수면 점수 하락', proofType: '워치 기록' },
+          { id: 26, category: 'diary', value: 1, date: '2026-03-18', note: '기록 시스템 아이디어 정리', evidence: '메모 페이지', proofType: '노트 링크' },
+          { id: 27, category: 'walk', value: 6800, date: '2026-03-12', note: '비 와서 목표 미달', evidence: '걸음 캡처', proofType: '앱 기록' },
+          { id: 28, category: 'water', value: 1500, date: '2026-03-12', note: '수분 섭취 부족', evidence: '체크박스 미완료', proofType: '수기 체크' },
+          { id: 29, category: 'read', value: 0, date: '2026-03-12', note: '독서 못 함', evidence: '기록 없음', proofType: '수기 메모' }
+        ],
+        bridgeCollection: BRIDGES.map(name => ({
+          name,
+          crossed: ['광진교','잠실철교','올림픽대교'].includes(name),
+          crossedAt: name === '광진교' ? '2026-03-02' : name === '잠실철교' ? '2026-03-09' : name === '올림픽대교' ? '2026-03-16' : null,
+          proof: name === '광진교' ? '광진교 표지판 앞 사진' : name === '잠실철교' ? '잠실철교 산책 인증 캡처' : name === '올림픽대교' ? '올림픽대교 횃불 조형물 사진' : null
+        })),
+        achievementNotes: {
+          first_log: { unlockedAt: '2026-02-01', proofRecordIds: [1] },
+          first_bridge: { unlockedAt: '2026-03-02', proofRecordIds: [19] },
+          routine_7: { unlockedAt: '2026-03-08', proofRecordIds: [1,2,3,4,5] },
+          detox_1: { unlockedAt: '2026-03-20', proofRecordIds: [16] }
+        }
+      };
+    }
+
+    const app = {
+      tabs: [
+        { id: 'dashboard', label: '대시보드' },
+        { id: 'records', label: '기록 허브' },
+        { id: 'analytics', label: '업적 관리' },
+        { id: 'achievements', label: '업적 진열장' }
+      ],
+      activeView: 'dashboard',
+      state: loadState()
+    };
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return createSeedState();
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return createSeedState();
+      }
+    }
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(app.state));
+    }
+
+    function formatNumber(v) {
+      const num = Number(v || 0);
+      return Number.isInteger(num) ? num.toLocaleString('ko-KR') : num.toLocaleString('ko-KR', { maximumFractionDigits: 1 });
+    }
+    function formatDate(date) {
+      return new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(date));
+    }
+    function shortDate(date) {
+      const d = new Date(date);
+      return `${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+    }
+    function getCategoryMeta(category) {
+      return CATEGORY_META[category] || { label: category, unit: '', icon: '•', goal: 0 };
+    }
+    function compareDateAsc(a, b) {
+      return new Date(a) - new Date(b);
+    }
+
+    function recordsOf(category) {
+      return app.state.records.filter(r => r.category === category).sort((a, b) => compareDateAsc(a.date, b.date));
+    }
+    function dailySeries(category) {
+      const grouped = new Map();
+      recordsOf(category).forEach(r => {
+        grouped.set(r.date, (grouped.get(r.date) || 0) + Number(r.value || 0));
+      });
+      return Array.from(grouped.entries())
+        .map(([date, value]) => ({ date, value }))
+        .sort((a, b) => compareDateAsc(a.date, b.date));
+    }
+    function cumulativeOf(category) {
+      return dailySeries(category).reduce((sum, item) => sum + item.value, 0);
+    }
+    function todayValue(category) {
+      const today = '2026-03-26';
+      return dailySeries(category).find(item => item.date === today)?.value || 0;
+    }
+    function bestDay(category) {
+      const series = dailySeries(category);
+      if (!series.length) return null;
+      return series.reduce((best, item) => !best || item.value > best.value ? item : best, null);
+    }
+    function lowestDay(category) {
+      const series = dailySeries(category);
+      if (!series.length) return null;
+      return series.reduce((best, item) => !best || item.value < best.value ? item : best, null);
+    }
+    function countGoalDays(category) {
+      const meta = getCategoryMeta(category);
+      return dailySeries(category).filter(item => item.value >= meta.goal).length;
+    }
+    function streaks(category) {
+      const meta = getCategoryMeta(category);
+      const series = dailySeries(category);
+      if (!series.length) return { current: 0, longest: 0 };
+      let longest = 0;
+      let currentRun = 0;
+      let previousDate = null;
+      series.forEach(item => {
+        const hit = item.value >= meta.goal;
+        const currentDate = new Date(item.date);
+        const isConsecutive = previousDate && ((currentDate - previousDate) / (1000 * 60 * 60 * 24) === 1);
+        if (hit) {
+          currentRun = isConsecutive || !previousDate ? currentRun + 1 : 1;
+        } else {
+          currentRun = 0;
+        }
+        longest = Math.max(longest, currentRun);
+        previousDate = currentDate;
+      });
+
+      let current = 0;
+      let cursor = new Date('2026-03-26');
+      const byDate = Object.fromEntries(series.map(s => [s.date, s.value]));
+      while (true) {
+        const key = cursor.toISOString().slice(0, 10);
+        const value = byDate[key];
+        if (value !== undefined && value >= meta.goal) {
+          current += 1;
+          cursor.setDate(cursor.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      return { current, longest };
+    }
+
+    function routineCoreStreak() {
+      const dates = new Set();
+      ['walk','water','read'].forEach(cat => dailySeries(cat).forEach(item => dates.add(item.date)));
+      const sorted = Array.from(dates).sort(compareDateAsc);
+      let current = 0;
+      let longest = 0;
+      let run = 0;
+      let previousDate = null;
+      const data = Object.fromEntries(sorted.map(date => {
+        return [date, {
+          walk: dailySeries('walk').find(x => x.date === date)?.value || 0,
+          water: dailySeries('water').find(x => x.date === date)?.value || 0,
+          read: dailySeries('read').find(x => x.date === date)?.value || 0
+        }];
+      }));
+      sorted.forEach(date => {
+        const hit = data[date].walk >= CATEGORY_META.walk.goal && data[date].water >= CATEGORY_META.water.goal && data[date].read >= CATEGORY_META.read.goal;
+        const currentDate = new Date(date);
+        const isConsecutive = previousDate && ((currentDate - previousDate) / 86400000 === 1);
+        if (hit) run = isConsecutive || !previousDate ? run + 1 : 1; else run = 0;
+        longest = Math.max(longest, run);
+        previousDate = currentDate;
+      });
+      let cursor = new Date('2026-03-26');
+      while (true) {
+        const key = cursor.toISOString().slice(0, 10);
+        const day = data[key];
+        if (day && day.walk >= CATEGORY_META.walk.goal && day.water >= CATEGORY_META.water.goal && day.read >= CATEGORY_META.read.goal) {
+          current += 1;
+          cursor.setDate(cursor.getDate() - 1);
+        } else break;
+      }
+      return { current, longest };
+    }
+
+    function bridgeProgress() {
+      const done = app.state.bridgeCollection.filter(b => b.crossed);
+      return {
+        count: done.length,
+        total: app.state.bridgeCollection.length,
+        done
+      };
+    }
+
+    function getAchievements() {
+      const walkCum = cumulativeOf('walk');
+      const waterDays = countGoalDays('water');
+      const readCum = cumulativeOf('read');
+      const sleepDays = countGoalDays('sleep');
+      const diaryStreak = streaks('diary');
+      const detoxDays = countGoalDays('detox');
+      const bridges = bridgeProgress();
+      const core = routineCoreStreak();
+      const notes = app.state.achievementNotes;
+
+      return [
+        {
+          id: 'first_log', emoji: '🧭', name: '기록 보관 개시', group: '입문', rarity: 'COMMON',
+          description: '첫 번째 루틴 기록을 남겼습니다. 이제부터 모든 성취는 증거와 함께 남습니다.',
+          target: 1, progress: app.state.records.length ? 1 : 0, unit: '회',
+          unlockedAt: notes.first_log?.unlockedAt || null,
+          proofRecordIds: notes.first_log?.proofRecordIds || []
+        },
+        {
+          id: 'forest_gump', emoji: '🏃', name: '포레스트 검프', group: '누적', rarity: 'EPIC',
+          description: '누적 도보 수 1,000,000보 달성. “그냥 걷고 싶어서 걸었습니다.”',
+          target: 1000000, progress: walkCum, unit: '걸음'
+        },
+        {
+          id: 'human_water_tower', emoji: '💧', name: '인간 급수탑', group: '누적', rarity: 'EPIC',
+          description: '물 2L 마시기 누적 365회 달성.',
+          target: 365, progress: waterDays, unit: '일'
+        },
+        {
+          id: 'book_devourer', emoji: '📚', name: '활자의 폭식가', group: '누적', rarity: 'EPIC',
+          description: '누적 독서 페이지 10,000쪽 돌파.',
+          target: 10000, progress: readCum, unit: '쪽'
+        },
+        {
+          id: 'deep_sleep', emoji: '😴', name: '딥 슬립 마스터', group: '건강', rarity: 'RARE',
+          description: '수면 시간 8시간 준수 누적 50회.',
+          target: 50, progress: sleepDays, unit: '일'
+        },
+        {
+          id: 'log_roguelike', emoji: '📝', name: '로그라이크 인생', group: '스트릭', rarity: 'MYTHIC',
+          description: '일일 기록 100일 연속 작성. “어제의 당신이 오늘의 당신에게 보내는 편지입니다.”',
+          target: 100, progress: diaryStreak.longest, unit: '일'
+        },
+        {
+          id: 'routine_7', emoji: '🔥', name: '코어 루틴 7연속', group: '스트릭', rarity: 'UNCOMMON',
+          description: '걷기·물·독서 3개 핵심 루틴 목표를 7일 연속 달성.',
+          target: 7, progress: core.longest, unit: '일',
+          unlockedAt: core.longest >= 7 ? (notes.routine_7?.unlockedAt || '2026-03-08') : null,
+          proofRecordIds: core.longest >= 7 ? (notes.routine_7?.proofRecordIds || [1,2,3,4,5]) : []
+        },
+        {
+          id: 'digital_detox', emoji: '📵', name: '디지털 디톡스', group: '라이프스타일', rarity: 'RARE',
+          description: '하루 스마트폰 사용 시간을 통제하고, 숏폼 없는 하루를 달성.',
+          target: 1, progress: detoxDays, unit: '회',
+          unlockedAt: detoxDays >= 1 ? (notes.detox_1?.unlockedAt || '2026-03-20') : null,
+          proofRecordIds: detoxDays >= 1 ? (notes.detox_1?.proofRecordIds || [16]) : []
+        },
+        {
+          id: 'first_bridge', emoji: '🌉', name: '한강 첫 도하', group: '탐험', rarity: 'UNCOMMON',
+          description: '한강 다리 업적 체인의 시작. 첫 보행 가능 다리를 완주했습니다.',
+          target: 1, progress: bridges.count, unit: '개',
+          unlockedAt: bridges.count >= 1 ? (notes.first_bridge?.unlockedAt || '2026-03-02') : null,
+          proofRecordIds: bridges.count >= 1 ? (notes.first_bridge?.proofRecordIds || [19]) : []
+        },
+        {
+          id: 'hangang_explorer', emoji: '🗺️', name: '서울 탐험가', group: '집합', rarity: 'RARE',
+          description: '보행 가능 한강 다리 5개 정복.',
+          target: 5, progress: bridges.count, unit: '개',
+          proofRecordIds: bridges.done.map(bridge => getBridgeRecordId(bridge.name)).filter(Boolean)
+        },
+        {
+          id: 'hangang_guardian', emoji: '🛡️', name: '한강의 수호자', group: '집합', rarity: 'LEGENDARY',
+          description: '보행 가능 한강 다리 10개 정복.',
+          target: 10, progress: bridges.count, unit: '개',
+          proofRecordIds: bridges.done.map(bridge => getBridgeRecordId(bridge.name)).filter(Boolean)
+        },
+        {
+          id: 'hangang_master', emoji: '👑', name: '한강의 지배자', group: '집합', rarity: 'MYTHIC',
+          description: '보행 가능 한강 다리 23개 모두 건너기. 집합형 업적의 최종 목표.',
+          target: 23, progress: bridges.count, unit: '개',
+          proofRecordIds: bridges.done.map(bridge => getBridgeRecordId(bridge.name)).filter(Boolean)
+        }
+      ].map(achievement => ({
+        ...achievement,
+        unlocked: achievement.progress >= achievement.target,
+        percent: Math.min(100, Math.round((achievement.progress / achievement.target) * 100))
+      }));
+    }
+
+    function getBridgeRecordId(name) {
+      return app.state.records.find(r => r.category === 'bridge' && r.bridgeName === name)?.id || null;
+    }
+
+    function getStatsSnapshot() {
+      const achievements = getAchievements();
+      const bridge = bridgeProgress();
+      const core = routineCoreStreak();
+      return {
+        unlockedAchievements: achievements.filter(a => a.unlocked).length,
+        totalAchievements: achievements.length,
+        todayLogs: app.state.records.filter(r => r.date === '2026-03-26').length,
+        coreStreak: core.current,
+        bridgeCount: bridge.count,
+        bridgeTotal: bridge.total
+      };
+    }
+
+    function renderTabs() {
+      const el = document.getElementById('tabs');
+      el.innerHTML = app.tabs.map(tab => `
+        <button class="tab-btn ${app.activeView === tab.id ? 'active' : ''}" data-view="${tab.id}">${tab.label}</button>
+      `).join('');
+      el.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.dataset.view));
+      });
+    }
+
+    function switchView(view) {
+      app.activeView = view;
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(`view-${view}`).classList.add('active');
+      renderTabs();
+    }
+
+    function renderDashboard() {
+      const snapshot = getStatsSnapshot();
+      const bridge = bridgeProgress();
+      const core = routineCoreStreak();
+      const categories = ['walk','water','read','sleep'];
+      const recent = [...app.state.records].sort((a,b) => new Date(b.date) - new Date(a.date) || b.id - a.id).slice(0, 8);
+
+      document.getElementById('view-dashboard').innerHTML = `
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">overview / no xp</div>
+            <div class="page-title">데일리 퀘스트를 경험치가 아닌 증거 기반 기록으로 바꾼 대시보드</div>
+            <p class="page-desc">오늘의 루틴 수행값과 누적 성과를 한 화면에서 보고, 업적 판정은 별도 관리 페이지에서 최고/최저/스트릭 중심으로 확인하도록 분리했습니다.</p>
+          </div>
+          <div class="badge-note">🌉 한강 다리 업적은 현재 <strong>${bridge.count}/${bridge.total}</strong> 진행 중</div>
+        </div>
+
+        <div class="grid dashboard-grid">
+          <div class="card">
+            <div class="section-label">PLAYER PROFILE</div>
+            <div class="hero">
+              <div class="avatar">🧑‍🚀</div>
+              <div>
+                <div class="title-row">
+                  <div class="profile-name">${app.state.profile.name}</div>
+                  <span class="pill cyan">${app.state.profile.title}</span>
+                  <span class="pill">FOCUS · ${app.state.profile.seasonFocus}</span>
+                </div>
+                <div class="page-desc" style="margin:0;">메인 화면에서는 XP 바를 제거하고, 현재 루틴 수행값 · 누적 기록 · 업적 접근성을 전면에 배치했습니다.</div>
+                <div class="summary-metrics">
+                  <div class="metric"><div class="metric-label">오늘 기록 수</div><div class="metric-value">${snapshot.todayLogs}</div><div class="metric-note">2026.03.26 기준 입력된 로그</div></div>
+                  <div class="metric"><div class="metric-label">핵심 루틴 스트릭</div><div class="metric-value">${core.current}일</div><div class="metric-note">걷기·물·독서 동시 달성</div></div>
+                  <div class="metric"><div class="metric-label">해금 업적</div><div class="metric-value">${snapshot.unlockedAchievements}<span style="font-size:18px;color:var(--dim);">/${snapshot.totalAchievements}</span></div><div class="metric-note">업적 클릭 시 날짜·증거 열람</div></div>
+                  <div class="metric"><div class="metric-label">한강 다리 진행도</div><div class="metric-value">${snapshot.bridgeCount}<span style="font-size:18px;color:var(--dim);">/${snapshot.bridgeTotal}</span></div><div class="metric-note">집합형 업적 부분 진행 시각화</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cards-2">
+              ${categories.map(category => renderCategoryCard(category)).join('')}
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="card bridge-panel">
+              <div class="section-label">highlighted achievement</div>
+              <div class="card-title">한강의 지배자</div>
+              <div class="card-sub">보고서의 집합형 업적 아이디어를 반영해, 개별 다리 횡단 증거와 전체 정복 진행률을 동시에 보여주는 카드입니다.</div>
+              <div class="pill warn">현재 상태 · ${bridge.count}개 다리 정복</div>
+              <div class="progress" style="margin-top:16px;"><span style="width:${Math.round((bridge.count / bridge.total) * 100)}%"></span></div>
+              <div class="mini-grid">
+                <div class="mini-cell"><strong>${bridge.done[0]?.name || '-'}</strong><span>${bridge.done[0] ? shortDate(bridge.done[0].crossedAt) : '미달성'}</span></div>
+                <div class="mini-cell"><strong>${bridge.done[1]?.name || '-'}</strong><span>${bridge.done[1] ? shortDate(bridge.done[1].crossedAt) : '미달성'}</span></div>
+                <div class="mini-cell"><strong>${bridge.done[2]?.name || '-'}</strong><span>${bridge.done[2] ? shortDate(bridge.done[2].crossedAt) : '미달성'}</span></div>
+              </div>
+              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+                <span class="pill good">5개 달성 시 · 서울 탐험가</span>
+                <span class="pill">10개 달성 시 · 한강의 수호자</span>
+                <span class="pill">23개 달성 시 · 한강의 지배자</span>
+              </div>
+              <div style="margin-top:16px;">
+                <button class="btn primary" onclick="switchView('achievements')">업적 진열장에서 자세히 보기</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-label">recent evidence feed</div>
+              <div class="card-title">최근 기록</div>
+              <div class="feed-list">
+                ${recent.map(record => renderFeedItem(record)).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      bindRecordOpeners();
+    }
+
+    function renderCategoryCard(category) {
+      const meta = getCategoryMeta(category);
+      const today = todayValue(category);
+      const total = cumulativeOf(category);
+      const best = bestDay(category);
+      const streak = streaks(category);
+      const progress = meta.goal ? Math.min(100, Math.round(today / meta.goal * 100)) : 0;
+      return `
+        <div class="category-card">
+          <div class="category-top">
+            <div>
+              <div class="category-name">${meta.label}</div>
+              <div class="category-target">오늘 목표 ${formatNumber(meta.goal)} ${meta.unit}</div>
+            </div>
+            <div class="category-icon">${meta.icon}</div>
+          </div>
+          <div class="big-number">${formatNumber(today)} <span style="font-size:18px;color:var(--muted);">${meta.unit}</span></div>
+          <div class="tiny-label">오늘 기록값</div>
+          <div class="progress"><span style="width:${progress}%"></span></div>
+          <div class="mini-grid">
+            <div class="mini-cell"><strong>${formatNumber(total)}</strong><span>누적</span></div>
+            <div class="mini-cell"><strong>${best ? formatNumber(best.value) : '-'}</strong><span>최고</span></div>
+            <div class="mini-cell"><strong>${streak.current}일</strong><span>현재 스트릭</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFeedItem(record) {
+      const meta = getCategoryMeta(record.category);
+      return `
+        <div class="feed-item" data-record-id="${record.id}">
+          <div class="feed-icon">${meta.icon}</div>
+          <div class="feed-main">
+            <strong>${meta.label}${record.bridgeName ? ` · ${record.bridgeName}` : ''}</strong>
+            <span>${formatDate(record.date)} · ${record.note || '메모 없음'} · ${record.evidence || '증거 미입력'}</span>
+          </div>
+          <div class="feed-value">${formatNumber(record.value)} ${record.category === 'bridge' ? '' : meta.unit}</div>
+        </div>
+      `;
+    }
+
+    function renderRecordsView() {
+      const categoryOptions = Object.entries(CATEGORY_META).map(([key, meta]) => `<option value="${key}">${meta.label}</option>`).join('');
+      const bridgeOptions = BRIDGES.map(name => `<option value="${name}">${name}</option>`).join('');
+      const list = [...app.state.records].sort((a,b) => new Date(b.date) - new Date(a.date) || b.id - a.id);
+      document.getElementById('view-records').innerHTML = `
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">records hub</div>
+            <div class="page-title">걷기·물·독서·수면을 남기는 기록 허브</div>
+            <p class="page-desc">XP 선택 UI를 제거하고, 기록 자체가 누적 통계와 업적 증거가 되도록 재구성했습니다. 업적 판정에 필요한 증거 문구도 함께 입력할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="grid records-grid">
+          <div class="card">
+            <div class="section-label">new evidence record</div>
+            <div class="card-title">새 기록 추가</div>
+            <div class="card-sub">업적 클릭 시 바로 보여줄 수 있도록, 날짜·수치·메모·증거를 한 번에 남기도록 설계했습니다.</div>
+            <form class="form-grid" id="record-form">
+              <div class="field">
+                <label for="category">카테고리</label>
+                <select class="select" id="category" name="category">${categoryOptions}</select>
+              </div>
+              <div class="field" id="bridge-field" style="display:none;">
+                <label for="bridgeName">다리 이름</label>
+                <select class="select" id="bridgeName" name="bridgeName">${bridgeOptions}</select>
+              </div>
+              <div class="form-row-2">
+                <div class="field">
+                  <label for="value">수치</label>
+                  <input class="input" id="value" name="value" type="number" step="0.1" placeholder="예: 8200 / 2.3 / 48" required />
+                </div>
+                <div class="field">
+                  <label for="date">기록 날짜</label>
+                  <input class="input" id="date" name="date" type="date" value="2026-03-26" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="note">메모</label>
+                <textarea class="textarea" id="note" name="note" placeholder="예: 출퇴근 + 저녁 산책, 논문 1편 읽음"></textarea>
+              </div>
+              <div class="field">
+                <label for="evidence">증거 / 인증 방식</label>
+                <input class="input" id="evidence" name="evidence" placeholder="예: Samsung Health 캡처, 워치 수면 리포트, 사진 인증" />
+              </div>
+              <div class="field">
+                <label for="proofType">증거 타입</label>
+                <input class="input" id="proofType" name="proofType" placeholder="예: 앱 기록 / GPS+사진 / 노트 링크" />
+              </div>
+              <div class="btn-row">
+                <button class="btn primary" type="submit">기록 저장</button>
+                <button class="btn" type="button" id="reset-storage">시드 데이터로 되돌리기</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="section-label">chronological log</div>
+            <div class="records-toolbar">
+              <div>
+                <div class="card-title">전체 기록 타임라인</div>
+                <div class="card-sub" style="margin:8px 0 0;">행을 클릭하면 해당 로그의 수치·메모·증거를 상세 모달로 볼 수 있습니다.</div>
+              </div>
+              <div class="toolbar-group">
+                <select class="select" id="filter-category" style="min-width:180px;">
+                  <option value="all">전체 카테고리</option>
+                  ${categoryOptions}
+                </select>
+              </div>
+            </div>
+            <div class="record-list" id="record-list">
+              ${list.map(record => renderRecordRow(record)).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('category').addEventListener('change', handleCategoryToggle);
+      handleCategoryToggle();
+      document.getElementById('record-form').addEventListener('submit', handleAddRecord);
+      document.getElementById('filter-category').addEventListener('change', handleRecordFilter);
+      document.getElementById('reset-storage').addEventListener('click', () => {
+        app.state = createSeedState();
+        saveState();
+        renderAll();
+        showToast('시드 데이터로 되돌렸습니다.');
+      });
+      bindRecordOpeners();
+    }
+
+    function renderRecordRow(record) {
+      const meta = getCategoryMeta(record.category);
+      const d = new Date(record.date);
+      return `
+        <div class="record-row" data-record-id="${record.id}" data-category="${record.category}">
+          <div class="record-date"><b>${String(d.getDate()).padStart(2, '0')}</b><small>${String(d.getMonth() + 1).padStart(2, '0')}월</small></div>
+          <div>
+            <strong>${meta.label}${record.bridgeName ? ` · ${record.bridgeName}` : ''}</strong>
+            <span>${record.note || '메모 없음'} · 증거: ${record.evidence || '미입력'} · 타입: ${record.proofType || '미입력'}</span>
+          </div>
+          <div class="record-value">${formatNumber(record.value)} ${record.category === 'bridge' ? '' : meta.unit}</div>
+        </div>
+      `;
+    }
+
+    function renderAnalyticsView() {
+      const categories = ['walk','water','read','sleep','diary'];
+      const achievements = getAchievements();
+      const closeOnes = achievements.filter(a => !a.unlocked).sort((a,b) => (b.percent - a.percent)).slice(0, 5);
+      const insights = buildInsights();
+      document.getElementById('view-analytics').innerHTML = `
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">achievement control room</div>
+            <div class="page-title">최고·최저·스트릭을 따로 관리하는 업적 관리 페이지</div>
+            <p class="page-desc">사용자가 업적 판정에 필요한 핵심 지표에 빠르게 접근하도록, 별도 페이지에서 카테고리별 최고 기록, 최저 기록, 현재 스트릭, 최장 스트릭을 분리 노출했습니다.</p>
+          </div>
+        </div>
+
+        <div class="grid analytics-grid">
+          <div class="card">
+            <div class="section-label">record based metrics</div>
+            <div class="metric-table">
+              ${categories.map(category => renderMetricBlock(category)).join('')}
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="card">
+              <div class="section-label">insights</div>
+              <div class="card-title">업적 판단에 바로 쓰이는 포인트</div>
+              <div class="insight-list">
+                ${insights.map(item => `
+                  <div class="insight-row">
+                    <div>
+                      <strong style="display:block;font-size:15px;">${item.title}</strong>
+                      <span class="muted">${item.description}</span>
+                    </div>
+                    <div class="pill ${item.tone || ''}">${item.value}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-label">almost there</div>
+              <div class="card-title">달성 임박 업적</div>
+              <div class="feed-list">
+                ${closeOnes.map(item => `
+                  <div class="feed-item" data-achievement-id="${item.id}">
+                    <div class="feed-icon">${item.emoji}</div>
+                    <div class="feed-main">
+                      <strong>${item.name}</strong>
+                      <span>${item.description}</span>
+                    </div>
+                    <div class="feed-value">${item.progress}/${item.target}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      bindAchievementOpeners();
+    }
+
+    function renderMetricBlock(category) {
+      const meta = getCategoryMeta(category);
+      const best = bestDay(category);
+      const low = lowestDay(category);
+      const streak = streaks(category);
+      const total = cumulativeOf(category);
+      return `
+        <div class="metric-block">
+          <div class="metric-head">
+            <div class="metric-name"><span>${meta.icon}</span> ${meta.label}</div>
+            <div class="pill">누적 ${formatNumber(total)} ${meta.unit}</div>
+          </div>
+          <div class="mrow">
+            <div class="mcell"><small>BEST</small><strong>${best ? formatNumber(best.value) : '-'}</strong><span>${best ? formatDate(best.date) : '기록 없음'}</span></div>
+            <div class="mcell"><small>LOWEST</small><strong>${low ? formatNumber(low.value) : '-'}</strong><span>${low ? formatDate(low.date) : '기록 없음'}</span></div>
+            <div class="mcell"><small>CURRENT STREAK</small><strong>${streak.current}일</strong><span>목표 ${formatNumber(meta.goal)} ${meta.unit}</span></div>
+            <div class="mcell"><small>LONGEST STREAK</small><strong>${streak.longest}일</strong><span>누적 달성일 ${countGoalDays(category)}일</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildInsights() {
+      const walkBest = bestDay('walk');
+      const sleepLow = lowestDay('sleep');
+      const waterStreak = streaks('water');
+      const bridge = bridgeProgress();
+      return [
+        {
+          title: '최고 걸음 수',
+          description: walkBest ? `${formatDate(walkBest.date)}에 달성된 최고 도보 기록` : '기록 없음',
+          value: walkBest ? `${formatNumber(walkBest.value)} 걸음` : '-',
+          tone: 'cyan'
+        },
+        {
+          title: '최저 수면량',
+          description: sleepLow ? `${formatDate(sleepLow.date)}에 가장 적게 잔 날` : '기록 없음',
+          value: sleepLow ? `${formatNumber(sleepLow.value)} 시간` : '-',
+          tone: 'warn'
+        },
+        {
+          title: '물 마시기 현재 스트릭',
+          description: '2L 기준으로 연속 달성한 일수',
+          value: `${waterStreak.current}일`,
+          tone: 'good'
+        },
+        {
+          title: '한강 다리 수집 상태',
+          description: '집합형 업적의 부분 진행 확인',
+          value: `${bridge.count}/${bridge.total}`,
+          tone: 'cyan'
+        }
+      ];
+    }
+
+    function renderAchievementsView() {
+      const achievements = getAchievements();
+      const bridge = bridgeProgress();
+      document.getElementById('view-achievements').innerHTML = `
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">trophy room</div>
+            <div class="page-title">날짜와 증거가 붙는 업적 진열장</div>
+            <p class="page-desc">보고서의 업적 진열장 개념을 유지하되, 클릭 시 업적 달성일과 증거 로그가 열리도록 상세 모달을 설계했습니다. 특히 한강 다리는 개별 다리 수집 상태를 바로 보여줍니다.</p>
+          </div>
+        </div>
+
+        <div class="grid achievements-grid-main">
+          <div class="grid">
+            <div class="card bridge-panel">
+              <div class="section-label">collection achievement</div>
+              <div class="card-title">한강 다리 정복 현황</div>
+              <div class="card-sub">요청하신 “3개의 다리만 건넌 상태”를 그대로 반영했습니다. 각 칩은 개별 증거를 가진 수집 단위입니다.</div>
+              <div class="pill good">현재 ${bridge.count}/${bridge.total} · 다음 마일스톤 5개</div>
+              <div class="progress" style="margin-top:14px;"><span style="width:${Math.round((bridge.count / bridge.total) * 100)}%"></span></div>
+              <div class="bridge-grid">
+                ${app.state.bridgeCollection.map(bridgeItem => `
+                  <button class="bridge-chip ${bridgeItem.crossed ? 'done' : ''}" data-bridge-name="${bridgeItem.name}">
+                    ${bridgeItem.name}
+                    <small>${bridgeItem.crossed ? shortDate(bridgeItem.crossedAt) : '미정복'}</small>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-label">milestones</div>
+              <div class="insight-list">
+                <div class="insight-row"><div><strong>서울 탐험가</strong><span class="muted">보행 가능 한강 다리 5개 정복</span></div><div class="pill ${bridge.count >= 5 ? 'good' : ''}">${bridge.count}/5</div></div>
+                <div class="insight-row"><div><strong>한강의 수호자</strong><span class="muted">보행 가능 한강 다리 10개 정복</span></div><div class="pill ${bridge.count >= 10 ? 'good' : ''}">${bridge.count}/10</div></div>
+                <div class="insight-row"><div><strong>한강의 지배자</strong><span class="muted">보행 가능 한강 다리 23개 모두 건너기</span></div><div class="pill ${bridge.count >= 23 ? 'good' : ''}">${bridge.count}/23</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-label">achievement gallery</div>
+            <div class="cards-3">
+              ${achievements.map(achievement => renderAchievementCard(achievement)).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      bindAchievementOpeners();
+      document.querySelectorAll('.bridge-chip').forEach(btn => {
+        btn.addEventListener('click', () => openBridgeModal(btn.dataset.bridgeName));
+      });
+    }
+
+    function renderAchievementCard(achievement) {
+      return `
+        <div class="achievement-card" data-achievement-id="${achievement.id}">
+          <div class="achievement-head">
+            <div style="display:flex;gap:12px;align-items:start;">
+              <div class="achievement-emoji">${achievement.emoji}</div>
+              <div>
+                <div class="achievement-name">${achievement.name}</div>
+                <div class="achievement-desc">${achievement.description}</div>
+              </div>
+            </div>
+          </div>
+          <div class="achievement-meta">
+            <span class="status-tag ${achievement.unlocked ? 'unlocked' : ''}">${achievement.unlocked ? 'UNLOCKED' : 'IN PROGRESS'}</span>
+            <span class="rarity">${achievement.rarity}</span>
+          </div>
+          <div class="progress"><span style="width:${achievement.percent}%"></span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;">
+            <span class="muted">${formatNumber(achievement.progress)} / ${formatNumber(achievement.target)} ${achievement.unit}</span>
+            <span class="pill ${achievement.unlocked ? 'good' : ''}">${achievement.unlockedAt ? formatDate(achievement.unlockedAt) : '달성 전'}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleCategoryToggle() {
+      const category = document.getElementById('category').value;
+      document.getElementById('bridge-field').style.display = category === 'bridge' ? 'block' : 'none';
+    }
+
+    function handleAddRecord(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const formData = new FormData(form);
+      const category = formData.get('category');
+      const value = Number(formData.get('value'));
+      const date = formData.get('date');
+      const note = formData.get('note');
+      const evidence = formData.get('evidence');
+      const proofType = formData.get('proofType');
+      const bridgeName = formData.get('bridgeName');
+      if (!category || !date || Number.isNaN(value)) {
+        showToast('카테고리, 날짜, 수치를 확인해주세요.');
+        return;
+      }
+      if (category === 'bridge' && bridgeName) {
+        const already = app.state.bridgeCollection.find(b => b.name === bridgeName && b.crossed);
+        if (already) {
+          showToast(`${bridgeName}는 이미 정복 처리되어 있습니다.`);
+          return;
+        }
+      }
+      const nextId = Math.max(0, ...app.state.records.map(r => r.id)) + 1;
+      app.state.records.push({
+        id: nextId,
+        category,
+        value,
+        date,
+        note,
+        evidence,
+        proofType,
+        bridgeName: category === 'bridge' ? bridgeName : undefined
+      });
+      if (category === 'bridge' && bridgeName) {
+        const bridge = app.state.bridgeCollection.find(b => b.name === bridgeName);
+        if (bridge) {
+          bridge.crossed = true;
+          bridge.crossedAt = date;
+          bridge.proof = evidence || note || '증거 입력됨';
+        }
+      }
+      saveState();
+      renderAll();
+      form.reset();
+      document.getElementById('date').value = '2026-03-26';
+      showToast('기록이 저장되었습니다. 업적 진행도도 함께 반영됐습니다.');
+    }
+
+    function handleRecordFilter(event) {
+      const value = event.target.value;
+      const rows = document.querySelectorAll('#record-list .record-row');
+      rows.forEach(row => {
+        row.style.display = value === 'all' || row.dataset.category === value ? '' : 'none';
+      });
+    }
+
+    function bindRecordOpeners() {
+      document.querySelectorAll('[data-record-id]').forEach(node => {
+        node.addEventListener('click', () => openRecordModal(Number(node.dataset.recordId)));
+      });
+    }
+    function bindAchievementOpeners() {
+      document.querySelectorAll('[data-achievement-id]').forEach(node => {
+        node.addEventListener('click', () => openAchievementModal(node.dataset.achievementId));
+      });
+    }
+
+    function openRecordModal(recordId) {
+      const record = app.state.records.find(r => r.id === recordId);
+      if (!record) return;
+      const meta = getCategoryMeta(record.category);
+      document.getElementById('modal').innerHTML = `
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">record detail</div>
+            <div class="page-title" style="font-size:36px;">${meta.label}${record.bridgeName ? ` · ${record.bridgeName}` : ''}</div>
+            <p class="page-desc">이 로그는 업적 상세에서 증거 카드로 재사용됩니다.</p>
+          </div>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="cards-2">
+          <div class="proof-card">
+            <div class="proof-head"><strong>기록 수치</strong><span class="pill cyan">${formatDate(record.date)}</span></div>
+            <div class="big-number" style="margin-top:0;">${formatNumber(record.value)} ${record.category === 'bridge' ? '' : meta.unit}</div>
+            <div class="muted">${record.note || '메모 없음'}</div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-head"><strong>증거</strong><span class="pill">${record.proofType || '미지정'}</span></div>
+            <div style="font-size:16px;line-height:1.7;">${record.evidence || '증거 문구가 아직 없습니다.'}</div>
+            <div class="muted" style="margin-top:10px;">이 영역은 실제 서비스에서는 이미지, 링크, 위치 정보, 센서 데이터 썸네일로 확장 가능합니다.</div>
+          </div>
+        </div>
+      `;
+      openModal();
+    }
+
+    function openAchievementModal(achievementId) {
+      const achievement = getAchievements().find(a => a.id === achievementId);
+      if (!achievement) return;
+      const proofRecords = (achievement.proofRecordIds || [])
+        .map(id => app.state.records.find(r => r.id === id))
+        .filter(Boolean);
+
+      const extraBlock = ['hangang_explorer','hangang_guardian','hangang_master'].includes(achievement.id)
+        ? `
+          <div class="card" style="padding:18px;margin-top:16px;">
+            <div class="section-label">bridge collection status</div>
+            <div class="bridge-grid">
+              ${app.state.bridgeCollection.map(bridgeItem => `
+                <div class="bridge-chip ${bridgeItem.crossed ? 'done' : ''}">
+                  ${bridgeItem.name}
+                  <small>${bridgeItem.crossed ? shortDate(bridgeItem.crossedAt) : '미정복'}</small>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : '';
+
+      document.getElementById('modal').innerHTML = `
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">achievement detail</div>
+            <div class="page-title" style="font-size:38px;">${achievement.emoji} ${achievement.name}</div>
+            <p class="page-desc">${achievement.description}</p>
+          </div>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <div class="cards-3">
+          <div class="proof-card">
+            <div class="proof-head"><strong>진행도</strong><span class="pill cyan">${achievement.percent}%</span></div>
+            <div class="big-number" style="margin-top:0;">${formatNumber(achievement.progress)} / ${formatNumber(achievement.target)}</div>
+            <div class="muted">단위: ${achievement.unit}</div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-head"><strong>달성 상태</strong><span class="pill ${achievement.unlocked ? 'good' : ''}">${achievement.unlocked ? 'UNLOCKED' : 'LOCKED'}</span></div>
+            <div style="font-size:18px;line-height:1.6;">${achievement.unlockedAt ? formatDate(achievement.unlockedAt) : '아직 달성 전'}</div>
+            <div class="muted">달성일자는 업적 카드와 상세 페이지 모두에 노출됩니다.</div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-head"><strong>희귀도 / 분류</strong><span class="pill">${achievement.group}</span></div>
+            <div style="font-size:18px;line-height:1.6;">${achievement.rarity}</div>
+            <div class="muted">희귀도와 플레이버 텍스트를 함께 보여주는 진열장 UX를 반영했습니다.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;">
+          <div class="section-label">proof</div>
+          ${proofRecords.length ? `
+            <div class="proof-grid">
+              ${proofRecords.map(record => {
+                const meta = getCategoryMeta(record.category);
+                return `
+                  <div class="proof-card" onclick="openRecordModal(${record.id})">
+                    <div class="proof-head">
+                      <strong>${meta.label}${record.bridgeName ? ` · ${record.bridgeName}` : ''}</strong>
+                      <span class="pill">${formatDate(record.date)}</span>
+                    </div>
+                    <div style="font-size:20px;font-family:var(--display);margin-bottom:8px;">${formatNumber(record.value)} ${record.category === 'bridge' ? '' : meta.unit}</div>
+                    <div class="muted">${record.note || '메모 없음'}</div>
+                    <div class="muted" style="margin-top:8px;">증거: ${record.evidence || '미입력'} · ${record.proofType || '타입 미지정'}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : `<div class="empty">아직 잠금 상태이거나 연결된 증거 로그가 없습니다. 현재까지의 진행도만 표시됩니다.</div>`}
+        </div>
+        ${extraBlock}
+      `;
+      openModal();
+    }
+
+    function openBridgeModal(name) {
+      const bridge = app.state.bridgeCollection.find(item => item.name === name);
+      const record = app.state.records.find(r => r.category === 'bridge' && r.bridgeName === name);
+      document.getElementById('modal').innerHTML = `
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">bridge detail</div>
+            <div class="page-title" style="font-size:38px;">🌉 ${name}</div>
+            <p class="page-desc">집합형 업적 내부의 개별 수집 단위입니다. 다리별 달성 여부와 증거를 직접 확인할 수 있습니다.</p>
+          </div>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="cards-2">
+          <div class="proof-card">
+            <div class="proof-head"><strong>정복 상태</strong><span class="pill ${bridge?.crossed ? 'good' : ''}">${bridge?.crossed ? 'CROSSED' : 'NOT YET'}</span></div>
+            <div style="font-size:20px;line-height:1.7;">${bridge?.crossed ? `${formatDate(bridge.crossedAt)} 달성` : '아직 증거가 없습니다.'}</div>
+            <div class="muted" style="margin-top:8px;">${bridge?.crossed ? '업적 카드와 동일한 날짜 정보가 연동됩니다.' : '기록 허브에서 bridge 카테고리로 추가하면 여기에 반영됩니다.'}</div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-head"><strong>증거</strong><span class="pill">${record?.proofType || '미입력'}</span></div>
+            <div style="font-size:16px;line-height:1.7;">${record?.evidence || '증거 없음'}</div>
+            <div class="muted" style="margin-top:8px;">${record?.note || '메모 없음'}</div>
+          </div>
+        </div>
+      `;
+      openModal();
+    }
+
+    function openModal() {
+      document.getElementById('modal-wrap').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modal-wrap').classList.remove('open');
+    }
+    document.getElementById('modal-wrap').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-wrap') closeModal();
+    });
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function renderAll() {
+      saveState();
+      renderTabs();
+      renderDashboard();
+      renderRecordsView();
+      renderAnalyticsView();
+      renderAchievementsView();
+      switchView(app.activeView);
+    }
+
+    renderAll();
+    window.switchView = switchView;
+    window.openRecordModal = openRecordModal;
+    window.closeModal = closeModal;
+  </script>
+</body>
+</html>
